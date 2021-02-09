@@ -3,7 +3,9 @@ name := "OdinsonWebapp"
 
 scalaVersion in ThisBuild := "2.12.7"
 
-resolvers +=  "Artifactory" at "http://artifactory.cs.arizona.edu:8081/artifactory/sbt-release" // processors-models
+resolvers in ThisBuild ++= Seq( "Maven Central" at "https://repo1.maven.org/maven2/",
+                                "Clulab Artifactory" at "http://artifactory.cs.arizona.edu:8081/artifactory/sbt-release", // processors-models
+                                "Local Ivy Repository" at s"file://${System.getProperty( "user.home" )}/.ivy2/local/default" )
 
 disablePlugins(sbtassembly.AssemblyPlugin)
 

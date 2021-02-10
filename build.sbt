@@ -11,6 +11,7 @@ disablePlugins(sbtassembly.AssemblyPlugin)
 
 val procVer = "8.2.3"
 val odinsonVer = "0.3.0-SNAPSHOT"
+val playVersion = "2.6.6"
 
 lazy val root = (project in file(".")).aggregate(core, webapp)
 
@@ -31,7 +32,10 @@ lazy val webapp = (project in file("webapp"))
   .dependsOn(core)
   .settings(
     libraryDependencies ++= Seq(
-      "com.google.inject" % "guice" % "4.1.0", // compat w/ playframework: https://github.com/playframework/playframework/blob/2.6.6/framework/project/Dependencies.scala#L125
+      "com.typesafe.play" %% "play-server" % playVersion,
+      "com.typesafe.play" %% "play-akka-http-server" % playVersion,
+      "com.typesafe.play" %% "play-guice" % playVersion,
+      "com.google.inject" % "guice" % "4.1.0", // compat w/ play framework: https://github.com/playframework/playframework/blob/2.6.6/framework/project/Dependencies.scala#L125
       "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
    ),
     mainClass in assembly := Some("play.core.server.ProdServerStart"),

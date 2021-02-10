@@ -3,9 +3,9 @@ name := "OdinsonWebapp"
 
 scalaVersion in ThisBuild := "2.12.7"
 
-resolvers in ThisBuild ++= Seq( "Maven Central" at "https://repo1.maven.org/maven2/",
+resolvers in ThisBuild ++= Seq("Maven Central" at "https://repo1.maven.org/maven2/",
                                 "Clulab Artifactory" at "http://artifactory.cs.arizona.edu:8081/artifactory/sbt-release", // processors-models
-                                "Local Ivy Repository" at s"file://${System.getProperty( "user.home" )}/.ivy2/local/default" )
+                                "Local Ivy Repository" at s"file://${System.getProperty("user.home")}/.ivy2/local/default")
 
 disablePlugins(sbtassembly.AssemblyPlugin)
 
@@ -25,7 +25,7 @@ lazy val core = (project in file("core"))
       "ai.lum"        %% "common"                   % "0.0.10",
       "com.lihaoyi"   %% "ujson"                    % "0.7.1",
       "com.lihaoyi"   %% "upickle"                  % "0.7.1")
-  )
+ )
 
 lazy val webapp = (project in file("webapp"))
   .dependsOn(core)
@@ -33,7 +33,24 @@ lazy val webapp = (project in file("webapp"))
     libraryDependencies ++= Seq(
       "com.google.inject" % "guice" % "4.1.0", // compat w/ playframework: https://github.com/playframework/playframework/blob/2.6.6/framework/project/Dependencies.scala#L125
       "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
-    ),
+   ),
     mainClass in assembly := Some("play.core.server.ProdServerStart"),
-    test in assembly := {}
+    test in assembly := {},
+    assemblyMergeStrategy in assembly := {
+        case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
+        case PathList("META-INF", "*.SF") => MergeStrategy.discard
+        case PathList("META-INF", "*.DSA") => MergeStrategy.discard
+        case PathList("META-INF", "*.RSA") => MergeStrategy.discard
+        case PathList("META-INF", "*.DEF") => MergeStrategy.discard
+        case PathList("*.SF") => MergeStrategy.discard
+        case PathList("*.DSA") => MergeStrategy.discard
+        case PathList("*.RSA") => MergeStrategy.discard
+        case PathList("*.DEF") => MergeStrategy.discard
+        case PathList("META-INF", "services", "org.apache.lucene.codecs.PostingsFormat") => MergeStrategy.filterDistinctLines
+        case PathList("META-INF", "services", "com.fasterxml.jackson.databind.Module") => MergeStrategy.filterDistinctLines
+        case PathList("META-INF", "services", "javax.xml.transform.TransformerFactory") => MergeStrategy.first // or last or both?
+        case PathList("reference.conf") => MergeStrategy.concat
+        case PathList("logback.xml") => MergeStrategy.first
+        case _ => MergeStrategy.last
+    }
 )

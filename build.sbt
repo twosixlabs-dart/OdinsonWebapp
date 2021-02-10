@@ -35,6 +35,7 @@ lazy val webapp = (project in file("webapp"))
       "com.typesafe.play" %% "play-server" % playVersion,
       "com.typesafe.play" %% "play-akka-http-server" % playVersion,
       "com.typesafe.play" %% "play-guice" % playVersion,
+      "com.typesafe.play" %% "play-json" % playVersion,
       "com.google.inject" % "guice" % "4.1.0", // compat w/ play framework: https://github.com/playframework/playframework/blob/2.6.6/framework/project/Dependencies.scala#L125
       "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
    ),

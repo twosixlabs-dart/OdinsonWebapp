@@ -39,7 +39,7 @@ lazy val webapp = (project in file("webapp"))
       "com.google.inject" % "guice" % "4.1.0", // compat w/ play framework: https://github.com/playframework/playframework/blob/2.6.6/framework/project/Dependencies.scala#L125
       "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
    ),
-    mainClass in assembly := Some("play.core.server.ProdServerStart"),
+    mainClass in assembly := Some("play.core.server.DevServerStart"),
     test in assembly := {},
     assemblyMergeStrategy in assembly := {
         case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard

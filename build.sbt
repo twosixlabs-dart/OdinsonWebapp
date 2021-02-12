@@ -6,8 +6,8 @@ name := "OdinsonWebapp"
 scalaVersion in ThisBuild := "2.12.7"
 
 resolvers in ThisBuild ++= Seq("Maven Central" at "https://repo1.maven.org/maven2/",
-                                "Clulab Artifactory" at "http://artifactory.cs.arizona.edu:8081/artifactory/sbt-release", // processors-models
-                                "Local Ivy Repository" at s"file://${System.getProperty("user.home")}/.ivy2/local/default")
+                               ("Clulab Artifactory" at "http://artifactory.cs.arizona.edu:8081/artifactory/sbt-release").withAllowInsecureProtocol(true), // processors-models
+                               "Local Ivy Repository" at s"file://${System.getProperty("user.home")}/.ivy2/local/default")
 
 disablePlugins(sbtassembly.AssemblyPlugin)
 
@@ -32,18 +32,17 @@ lazy val core = (project in file("core"))
 
 lazy val webapp = (project in file("webapp"))
   .dependsOn(core)
-  .enablePlugins(PlayScala)
+  .enablePlugins(PlayScala, JavaAppPackaging)
   .settings(
     libraryDependencies ++= Seq(
         //      "com.typesafe.play" %% "play-server" % playVersion,
         //      "com.typesafe.play" %% "play-akka-http-server" % playVersion,
         //      "com.typesafe.play" %% "play-guice" % playVersion,
         //      "com.typesafe.play" %% "play-json" % playVersion,
-      PlayImport.guice,
-      "com.google.inject" % "guice" % "4.1.0", // compat w/ play framework: https://github.com/playframework/playframework/blob/2.6.6/framework/project/Dependencies.scala#L125
+      guice,
       "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
    ),
-    mainClass in assembly := Some("play.core.server.DevServerStart"),
+    mainClass in assembly := Some("play.core.server.ProdServerStart"),
     test in assembly := {},
     assemblyMergeStrategy in assembly := {
         case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard

@@ -1,6 +1,15 @@
-FROM ysihaoy/scala-play:2.12.2-2.6.0-sbt-0.13.15
+FROM openjdk:8
 
-ENV SCALA_VERSION '2.12'
-EXPOSE 9000
+ENV APP_DIR /opt/app
 
-COPY ./target/scala-$SCALA_VERSION/*assembly*.jar /
+ENV JAVA_OPTS="-Dplay.http.secret.key='QCY?tAnfk?aZ?iwrNwnxIlR6CTf:G3gf:90Latabg@5241AB`R5W:1uDFN];Ik@n'"
+
+RUN mkdir /opt/app
+
+WORKDIR $APP_DIR
+
+COPY ./webapp/target/scala-*/*assembly*.jar $APP_DIR/app.jar
+
+RUN chmod -R 755 /opt/app
+
+ENTRYPOINT java $JAVA_OPTS -jar app.jar

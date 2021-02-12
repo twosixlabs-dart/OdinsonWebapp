@@ -59,6 +59,7 @@ lazy val webapp = (project in file("webapp"))
         case PathList("META-INF", "services", "javax.xml.transform.TransformerFactory") => MergeStrategy.first // or last or both?
         case PathList("reference.conf") => MergeStrategy.concat
         case PathList("logback.xml") => MergeStrategy.first
+        case PathList("application.conf") => MergeStrategy.concat
         case _ => MergeStrategy.last
     }
 )

@@ -10,7 +10,7 @@ resolvers ++= Seq(
 )
 
 val procVer = "8.2.3"
-val odinsonVer = "0.3.1"
+val odinsonVer = "0.4.0-SNAPSHOT"
 
 libraryDependencies ++= Seq(
   "org.clulab" %% "processors-main" % procVer,

@@ -11,7 +11,7 @@ else
 endif
 
 docker-build:
-	sbt clean universal:packageBin
+	sbt "project webapp" "dist"
 	docker build -t $(IMG):$(APP_VERSION) .
 
 docker-push: docker-build

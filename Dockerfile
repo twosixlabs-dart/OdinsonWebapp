@@ -13,4 +13,4 @@ RUN unzip -q $APP_DIR/app.zip && \
     export APP=$(ls -d */ | grep webapp) && \
     mv $APP app
 
-ENTRYPOINT $APP_DIR/app/bin/webapp
+ENTRYPOINT $APP_DIR/app/bin/webapp -J-Xms4g -J-Xmx12g
